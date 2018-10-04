@@ -23,7 +23,8 @@ Enemy.prototype.update = function(dt) {
             count+=1
             if (count<4){
                 this.corX = Math.floor(Math.random())*(-200);
-                this.velocity = 400 + Math.floor(Math.random() *300); 
+                this.velocity = 400 + Math.floor(Math.random() *300);
+                // console.log(`1stset`, this.corX,this.corY); 
             }
              // delay the enemy at old number by 3sec;
             if ( count%2 == 0 ){
@@ -35,7 +36,7 @@ Enemy.prototype.update = function(dt) {
             }, 3000);
             }else {
             this.corX = Math.floor(Math.random())*(-300);
-            // console.log(this.corX);
+            // console.log(`others`, this.corX, this.corY);
             // console.log(count);
             this.velocity = 300 + Math.floor(Math.random() *50);
             }
@@ -81,11 +82,25 @@ class PlayerImage {
 
                 // console.log(count,i, allEnemies[i].corY, allEnemies[i].corX)
             }}
-                player.corX;
-                player.corY;
-        }
+                // player.corX;
+                // player.corY;
 
-    }
+        }
+            if (player.corY == -9){
+            console.log(`well done`);
+            swal({
+                title: "Good job! Congratulations!!!",
+                text: "You made great effort! \n by completed the game after moves \n Well done!!!",
+                icon: "success",
+            });
+                 setTimeout(() => {
+            player.corX =200;
+                player.corY = 435;
+        }, 1000);
+            }
+
+       }
+
 
     render(){
         ctx.drawImage(Resources.get(this.person), this.corX, this.corY);
@@ -126,14 +141,14 @@ class PlayerImage {
             // console.log(this.corY);
             if ((this.corY >-9) && this.corY<=435 ){
             if (this.corY==435){
-                // console.log(this.corY);
+                console.log(this.corY);
                 this.corY -= 110;
             }else if(this.corY==73){
                 this.corY -= 82;
-                // console.log(this.corY);
+                console.log(this.corY);
             }else{
                 this.corY -= 84;
-                // console.log(this.corY);
+                console.log(this.corY);
             }
         }
         }else{/*do nothing for*/}
