@@ -17,10 +17,10 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.corX += this.velocity * dt;
-    if (this.corX > 505) {
+    if (this.corX > 610) {
         count += 1
         if (count < 4) {
-            this.corX = Math.floor(Math.random()) * (-200);
+            this.corX = Math.floor(Math.random()) * (-300);
             this.velocity = 400 + Math.floor(Math.random() * 300);
         }
         // delay the enemy at old number by 3sec;
@@ -29,14 +29,19 @@ Enemy.prototype.update = function(dt) {
             this.velocity = 0;
             setTimeout(() => {
                 this.velocity = 393.5;
-                this.corX = -200;
             }, 3000);
         } else {
             this.corX = Math.floor(Math.random()) * (-300);
-            this.velocity = 300 + Math.floor(Math.random() * 50);
+            this.velocity = 400 + Math.floor(Math.random() * 60);
         }
-        if (count === 10) {
+        //to create a dynamic velocity variation
+        if (count > 9 && count < 25) {
+            this.velocity *= 2;
+            this.corX = -200;
+        } else if (count == 25) {
             count = 0;
+        } else {
+            count;
         }
     }
 };
@@ -47,59 +52,66 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-class PlayerImage {
+//making playerimage subclass of the enemy class to avoid repitetion of similar properties and methods
+class PlayerImage extends Enemy {
     constructor(corX, corY) {
-        this.corX = corX;
-        this.corY = corY;
-        this.person = 'images/char-pink-girl.png';
+        super(corX, corY);
+        this.sprite = 'images/char-pink-girl.png';
     }
+    //defining special update method for player
     update() {
-        // reset();
         for (let i = 0; i < allEnemies.length; i++) {
             if (true) {
                 let count = 0;
                 count++;
-                if (allEnemies[i].corX >= player.corX - 12) {
-                    if (allEnemies[i].corY == 64 && (player.corY > 70 && player.corY < 110)) {
+                // defining the collision action for each rows
+                if (allEnemies[i].corX >= this.corX - 85 && allEnemies[i].corX <= this.corX + 50) {
+                    if (allEnemies[i].corY == 64 && (this.corY < 145 && this.corY > 0)) {
                         for (let j = 0; j < 500; j += 100) {
-                            if (player.corX == j) {
-                                player.corX = j;
-                                player.corY = 435
+                            if (this.corX == j) {
+                                this.corX = j;
+                                this.corY = 435
                             }
                         }
-                    } else if (allEnemies[i].corY == 147 && (player.corY > 150 && player.corY < 186)) {
+                    } else if (allEnemies[i].corY == 147 && (this.corY < 227 && this.corY > 85)) {
                         for (let j = 0; j < 500; j += 100) {
-                            if (player.corX == j) {
-                                player.corX = j;
-                                player.corY = 435
+                            if (this.corX == j) {
+                                this.corX = j;
+                                this.corY = 435
                             }
                         }
-                    } else if (allEnemies[i].corY == 230 && (player.corY > 236 && player.corY < 244)) {
+                    } else if (allEnemies[i].corY == 230 && (this.corY > 168 && this.corY < 310)) {
                         for (let j = 0; j < 500; j += 100) {
-                            if (player.corX == j) {
-                                player.corX = j;
-                                player.corY = 435
+                            if (this.corX == j) {
+                                this.corX = j;
+                                this.corY = 435
                             }
                         }
-                    } else { /*do nothing*/ }
+                    } else {
+                        //Action defined for game completion
+                        if (this.corY == -9) {
+                            console.log(`well done`);
+                            swal({
+                                title: "Good job! Congratulations!!!",
+                                text: "You made great effort! \n by completed the game after careful moves \n Well done!!!",
+                                icon: "success",
+                            });
+                            setTimeout(() => {
+                                this.corX = 200;
+                                this.corY = 435;
+                                count = 0;
+                            }, 900);
+                        }
+                    }
                 }
             }
         }
-        if (player.corY == -9) {
-            swal({
-                title: "Good job! Congratulations!!!",
-                text: "You made great effort! \n by completed the game after careful moves \n Well done!!!",
-                icon: "success",
-            });
-            setTimeout(() => {
-                player.corX = 200;
-                player.corY = 435;
-            }, 1000);
-        }
     }
+    //calling the super class render method to draw the player on the screen
     render() {
-        ctx.drawImage(Resources.get(this.person), this.corX, this.corY);
+        super.render();
     }
+    //defining unique method specifically for player input response
     handleInput(input) {
         if (input == "left") {
             if (this.corX > 0 && this.corX <= 400) {
@@ -117,7 +129,7 @@ class PlayerImage {
                     this.corY += 82;
                 } else {
                     if (this.corY >= 400) {
-                        //do thing
+                        //do nothing
                     } else {
                         this.corY += 84;
                     }

@@ -5,6 +5,14 @@ Game Procedure
 ==============
 You will be required to use the arrow keys to navigate the roaming enemy to reach the blue top block of the ClassicArcadeGame to win or complete the game successfully.
 
+Steps to operate this game
+==========================
+1 Once the browser open the url the Game Loads automatically
+2 The safest loction for your player is the green grass area.
+2 Target is to cross the 3 white rows to the top blue floor in order to win the game
+2 Use the arrow keys to move the player icon across these white blocks and avoid the roaming enemies in this area.
+3 You win the game once you are able to reach the top blue floor area 
+4 Then the game restarts automatically after about 30 Secs.  
 
 ### Information
 ===============
